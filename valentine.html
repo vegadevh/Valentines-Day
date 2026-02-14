@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Valentine ❤️</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #ffeef8 0%, #ffc3e1 50%, #ffb3d9 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 600px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 25px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(255, 105, 180, 0.3);
+        }
+
+        .chat-bubble {
+            background: linear-gradient(135deg, #ff85c0 0%, #ff6ba9 100%);
+            color: white;
+            padding: 20px 25px;
+            border-radius: 20px 20px 20px 5px;
+            margin-bottom: 25px;
+            font-size: 18px;
+            line-height: 1.6;
+            box-shadow: 0 4px 15px rgba(255, 105, 180, 0.2);
+            animation: slideIn 0.5s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .option-btn {
+            padding: 18px 25px;
+            font-size: 17px;
+            border: none;
+            border-radius: 15px;
+            background: white;
+            color: #ff6ba9;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+
+        .option-btn:hover:not(:disabled) {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(255, 105, 180, 0.3);
+        }
+
+        .option-btn:disabled {
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+
+        .option-btn.correct {
+            background: #4CAF50;
+            color: white;
+        }
+
+        .option-btn.wrong {
+            background: #f44336;
+            color: white;
+            animation: shake 0.5s;
+        }
+
+        @keyframes shake {
+
+            0%,
+            100% {
+                transform: translateX(0);
+            }
+
+            25% {
+                transform: translateX(-10px);
+            }
+
+            75% {
+                transform: translateX(10px);
+            }
+        }
+
+        .error-message {
+            color: #f44336;
+            text-align: center;
+            margin-top: 10px;
+            font-weight: 600;
+            font-size: 16px;
+            animation: fadeIn 0.3s;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        .image-reveal {
+            text-align: center;
+            margin: 30px 0;
+            animation: scaleIn 0.6s ease;
+        }
+
+        @keyframes scaleIn {
+            from {
+                opacity: 0;
+                transform: scale(0.5);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .image-reveal img {
+            max-width: 250px;
+            height: auto;
+        }
+
+        .rewards-box {
+            background: linear-gradient(135deg, #fff9e6 0%, #ffe6f0 100%);
+            border: 3px solid #ff85c0;
+            border-radius: 20px;
+            padding: 25px;
+            margin-top: 30px;
+            text-align: center;
+        }
+
+        .rewards-box h3 {
+            color: #ff6ba9;
+            font-size: 22px;
+            margin-bottom: 20px;
+        }
+
+        .rewards-images {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+
+        .reward-medal {
+            text-align: center;
+        }
+
+        .reward-medal img {
+            width: 120px;
+            height: 120px;
+            object-fit: contain;
+            filter: drop-shadow(0 5px 15px rgba(255, 105, 180, 0.3));
+        }
+
+        .final-message {
+            background: linear-gradient(135deg, #ffe6f0 0%, #fff5fa 100%);
+            border-left: 5px solid #ff6ba9;
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 25px;
+            font-size: 17px;
+            line-height: 1.8;
+            color: #444;
+            box-shadow: 0 4px 15px rgba(255, 105, 180, 0.1);
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div id="step1" class="step">
+            <div class="chat-bubble">
+                Hola, amor, ahora es 14 de febrero y quería saber si quieres que hagamos algo juntos.
+            </div>
+            <div class="options">
+                <button class="option-btn" onclick="correctAnswer('step1', 'step2', this)">Ir a almorzar! 🍽️</button>
+                <button class="option-btn wrong-btn" onclick="wrongAnswer(this, 0)">No, no quiero</button>
+            </div>
+            <div id="error1" class="error-message hidden"></div>
+        </div>
+
+        <div id="step2" class="step hidden">
+            <div class="chat-bubble">
+                Okay! ¡Pero antes de que nos vayamos, tengo una pequeña sorpresa!
+            </div>
+            <div class="options">
+                <button class="option-btn" onclick="correctAnswer('step2', 'step3', this)">Iniciar misión 🎯</button>
+                <button class="option-btn wrong-btn" onclick="wrongAnswer(this, 1)">Ay no, vamonos tengo hambre</button>
+            </div>
+            <div id="error2" class="error-message hidden"></div>
+        </div>
+
+        <div id="step3" class="step hidden">
+            <div class="chat-bubble">
+                ¡Primero, dame un abrazo!
+            </div>
+            <div class="options">
+                <button class="option-btn" onclick="correctAnswer('step3', 'step4', this)">Continuar 🤗</button>
+            </div>
+        </div>
+
+        <div id="step4" class="step hidden">
+            <div class="chat-bubble">
+                ¡Dame un beso!
+            </div>
+            <div class="options">
+                <button class="option-btn" onclick="correctAnswer('step4', 'step5', this)">Continuar 💋</button>
+            </div>
+        </div>
+
+        <div id="step5" class="step hidden">
+            <div class="chat-bubble">
+                Eso, amorcito, te ganaste un JELLY BEAN.
+            </div>
+            <div class="options">
+                <button class="option-btn" onclick="revealImage('step5', 'step6', 'jellybean.png', this)">Aceptar
+                    🎁</button>
+            </div>
+        </div>
+
+        <div id="step6" class="step hidden">
+            <div class="image-reveal">
+                <img src="jellybean.png" alt="Jelly Bean">
+            </div>
+            <div class="options">
+                <button class="option-btn" onclick="correctAnswer('step6', 'step7', this)">Continuar ✨</button>
+            </div>
+        </div>
+
+        <div id="step7" class="step hidden">
+            <div class="chat-bubble">
+                Ahora que tienes tu JELLY BEAN, podemos irnos NO SIN ANTES
+            </div>
+            <div class="options">
+                <button class="option-btn" onclick="revealImage('step7', 'step8', 'flowers.png', this)">REGALO
+                    MISTERIOSO 🎉</button>
+            </div>
+        </div>
+
+        <div id="step8" class="step hidden">
+            <div class="image-reveal">
+                <img src="flowers.png" alt="Flores">
+            </div>
+            <div class="options">
+                <button class="option-btn" onclick="correctAnswer('step8', 'step9', this)">Continuar 💐</button>
+            </div>
+        </div>
+
+        <div id="step9" class="step hidden">
+            <div class="final-message">
+                Gracias por todo tu amorcito y cariño todos los días, gracias por tus abrazos y tu apoyo; también
+                gracias por hablar conmigo, aunque sea en los últimos momentos del día y cuando estás más cansada que
+                otra cosa. TE AMO MUCHO. ❤️
+            </div>
+            <div class="rewards-box">
+                <h3>🏆 Conseguiste 2 regalos 🏆</h3>
+                <div class="rewards-images">
+                    <div class="reward-medal">
+                        <img src="jellybean.png" alt="Jelly Bean">
+                    </div>
+                    <div class="reward-medal">
+                        <img src="flowers.png" alt="Flores">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const wrongMessages = [
+            ["Esa es la respuesta equivocada!", "Otra vez? No, es la equivocada", "😡"],
+            ["Esa es la respuesta equivocada!", "Otra vez? No, es la equivocada", "😡"]
+        ];
+        const wrongClicks = [0, 0];
+
+        function correctAnswer(currentStep, nextStep, button) {
+            button.classList.add('correct');
+            button.innerHTML += ' ✓';
+            button.disabled = true;
+
+            // Disable all buttons in current step
+            const buttons = document.querySelectorAll(`#${currentStep} .option-btn`);
+            buttons.forEach(btn => btn.disabled = true);
+
+            setTimeout(() => {
+                document.getElementById(currentStep).classList.add('hidden');
+                document.getElementById(nextStep).classList.remove('hidden');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }, 800);
+        }
+
+        function wrongAnswer(button, index) {
+            button.classList.add('wrong');
+
+            const errorDiv = document.getElementById(`error${index + 1}`);
+            errorDiv.textContent = wrongMessages[index][wrongClicks[index]];
+            errorDiv.classList.remove('hidden');
+
+            wrongClicks[index]++;
+
+            if (wrongClicks[index] >= 3) {
+                button.disabled = true;
+            }
+
+            setTimeout(() => {
+                button.classList.remove('wrong');
+            }, 500);
+        }
+
+        function revealImage(currentStep, nextStep, imageSrc, button) {
+            button.classList.add('correct');
+            button.innerHTML += ' ✓';
+            button.disabled = true;
+
+            setTimeout(() => {
+                document.getElementById(currentStep).classList.add('hidden');
+                document.getElementById(nextStep).classList.remove('hidden');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }, 800);
+        }
+    </script>
+</body>
+
+</html>
